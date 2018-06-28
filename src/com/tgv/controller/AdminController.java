@@ -3,6 +3,9 @@
  */
 package com.tgv.controller;
 
+import java.util.List;
+
+import org.apache.catalina.filters.AddDefaultCharsetFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,21 +34,34 @@ public class AdminController {
 	 * a otro metodo, por ejemplo about
 	 */
 	public String Administrador(Model model, @ModelAttribute("resultado") String resultado) {
-		Admin admin = new Admin();
+		List <Admin> admins = adminService.mostarTodos();
+    	Admin admin = new Admin();
 		model.addAttribute("admin", admin);
-		model.addAttribute("resultado", resultado);
+		//model.addAttribute("resultado", resultado);
+		model.addAttribute("admins", admins);
+		
+		
 		return "administrador";
 	}
 	
 	@RequestMapping(value="/admin/save",method=RequestMethod.POST)
 	public String handlAdmin(@ModelAttribute("admin") Admin adminForm, 
-			Model model, RedirectAttributes ra,@RequestParam ("martin") String martin)
-	{
-	    System.out.println("imprimo"+martin);
-		model.addAttribute("adminForm", adminForm);
-		System.out.println("Esto es lo que se guarda:"+ adminForm);
-		ra.addFlashAttribute("resultado","Cambios realizados correctamtente");
-		return "redirect:/admin";
-		//return "index";
+			Model model, RedirectAttributes ra){ 
+		if(adminService.save(adminForm)) { 
+			ra.addFlashAttribute("resultado","Cambios realizados correctamtente");
+		} else {
+			ra.addFlashAttribute("resultado","Error al guardar");
+		}
+		return "redirect:/admin" ; 
 	}
 }
+		
+		//}
+	//{
+	   
+	//	System.out.println("Esto es lo que se guarda:"+ adminForm);
+	//	ra.addFlashAttribute("resultado","Cambios realizados correctamtente");
+		//return "redirect:/admin";
+		//return "index";
+	//}
+//}

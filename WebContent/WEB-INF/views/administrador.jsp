@@ -15,28 +15,29 @@ Variables desde el ambito de la session: <c:out value="${sessionScope.resultado}
 <!-- commadName = hace referencia a nuestra clase POJO que uso -->
 <sf:form action="${pageContext.request.contextPath}/admin/save" method="post" commandName="admin">
 	<table>
-		<tr>
+		<!--<tr>
 		
 		<td><input name="martin" type="text" /> <td/>
 		</tr>
 		
-		
+		-->
 		<tr>
 			<td>Nombre</td>
 			<td><sf:input path="nombre"/> </td>
 		</tr>
-		
-		
 		<tr>
 			<td>Cargo</td>
 			<td><sf:input path="cargo"/></td>
 		</tr>
 		<tr>
-			<td></td>
 			<td><input type="submit" value="Guardar Cambios"/></td>
 		</tr>
 	</table>
 </sf:form>
 <c:out value="${resultado}"/>
+<br/>
+<c:forEach items="${admins}" var="admin">
+	<c:out value="${admin}"/><br/>
+</c:forEach>
 </body>
 </html>
